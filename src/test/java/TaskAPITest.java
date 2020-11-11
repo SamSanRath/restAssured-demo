@@ -19,15 +19,15 @@ public class TaskAPITest extends BaseTest{
 
     @BeforeSuite
     public void beforeSuite(){
-        requestSpecification = given()
+        requestSpecification    = given()
                                 .contentType(ContentType.JSON)
                                 .accept(ContentType.JSON)
                                 .baseUri(baseUrl);
-        responseSpecification = new ResponseSpecBuilder()
+        responseSpecification   = new ResponseSpecBuilder()
                                 .expectStatusCode(200)
                                 .expectContentType(ContentType.JSON)
                                 .build(); // Another design pattern - Builder pattern very useful in wizard.
-        ValidatableResponse response = given(requestSpecification)
+        ValidatableResponse response    = given(requestSpecification)
                                         //.contentType(ContentType.JSON)
                                         //.accept(ContentType.JSON)
                                         .when()
@@ -47,7 +47,7 @@ public class TaskAPITest extends BaseTest{
         jsonObject.put("name","Task One");
         jsonObject.put("category","Category name");
         jsonObject.put("status","Completed");
-        ValidatableResponse response = given(requestSpecification)
+        ValidatableResponse response    = given(requestSpecification)
                                         //.contentType(ContentType.JSON)
                                         //.accept(ContentType.JSON) // Make sure response is JSON object
                                         .body(jsonObject.toJSONString())
@@ -68,16 +68,16 @@ public class TaskAPITest extends BaseTest{
     @Test
     public void getTaskTest(){
         createTask();
-        ValidatableResponse response = given(requestSpecification)
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .when()
-                //.get(baseUrl.concat("/tasks/"+getTaskId()))
-                .get("/tasks/"+getTaskId())
-                .then()
-                .spec(responseSpecification)
-                .log()
-                .all();
+        ValidatableResponse response    = given(requestSpecification)
+                                        .contentType(ContentType.JSON)
+                                        .accept(ContentType.JSON)
+                                        .when()
+                                        //.get(baseUrl.concat("/tasks/"+getTaskId()))
+                                        .get("/tasks/"+getTaskId())
+                                        .then()
+                                        .spec(responseSpecification)
+                                        .log()
+                                        .all();
         //System.out.println(response.extract().body().asString());
         //Assert.assertEquals(response.extract().statusCode(),200);
         Assert.assertEquals(response.extract().body().jsonPath().get("name"),"Task One");
@@ -92,7 +92,7 @@ public class TaskAPITest extends BaseTest{
         jsonObject.put("name","Task One EDITED");
         jsonObject.put("category","Category name");
         jsonObject.put("status","Completed");
-        ValidatableResponse response = given(requestSpecification)
+        ValidatableResponse response    = given(requestSpecification)
                                         .contentType(ContentType.JSON)
                                         .accept(ContentType.JSON)
                                         .body(jsonObject.toJSONString())
@@ -115,15 +115,15 @@ public class TaskAPITest extends BaseTest{
         } else {
             taskIdToBeDeleted = taskId;
         }
-        ValidatableResponse response = given(requestSpecification)
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .when()
-                //.delete(baseUrl.concat("/tasks/"+taskIdToBeDeleted))
-                .delete("/tasks/"+taskIdToBeDeleted)
-                .then()
-                .log()
-                .all();
+        ValidatableResponse response    = given(requestSpecification)
+                                        .contentType(ContentType.JSON)
+                                        .accept(ContentType.JSON)
+                                        .when()
+                                        //.delete(baseUrl.concat("/tasks/"+taskIdToBeDeleted))
+                                        .delete("/tasks/"+taskIdToBeDeleted)
+                                        .then()
+                                        .log()
+                                        .all();
         Assert.assertEquals(response.extract().statusCode(),204);
     }
 
